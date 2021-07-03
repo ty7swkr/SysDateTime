@@ -203,5 +203,5 @@ private:
 #include "SystemTime.inl"
 
 
-#endif /* COMMON_SYSTEMTIME_H_ */
+#endif /* SYSTEMTIME_H_ */
 
