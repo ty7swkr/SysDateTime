@@ -103,7 +103,7 @@ int main(void)
 
 ## example.cpp output
 <pre>
-$ g++ example.cpp -o example
+$ g++ example.cpp -std=c++11 -o example
 $ ./example
 strftime 
 2021-07-03 11:23:21
