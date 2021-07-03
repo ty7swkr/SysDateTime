@@ -1,6 +1,6 @@
 # SystemTime
 c++11 std::chrono::system_clock wrapping class.
-* header-only library
+* Header-only library
 * All compilers that support c++11
 
 ### example
