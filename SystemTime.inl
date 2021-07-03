@@ -467,15 +467,3 @@ SystemTime::set_nanosec(const int64_t &nanosec)
   clock_ = nano_time_t_to_time_point(to_time_t(), nanosec);
   return *this;
 }
-
-
-
-
-
-
-
-
-
-
-
-
