@@ -101,7 +101,7 @@ int main(void)
 </code>
 </pre>
 
-## output
+## example.cpp output
 <pre>
 $ g++ example.cpp -o example
 $ ./example
