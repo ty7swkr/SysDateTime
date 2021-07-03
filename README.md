@@ -1,6 +1,5 @@
 # SystemTime
 A date-time class using c++11 std::chrono::system_clock
-* A header only.
 * Compilers that support C++11
 
 ### example
