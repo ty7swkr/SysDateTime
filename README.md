@@ -7,7 +7,7 @@ C++11 std::chrono::system_clock wrapping class.
 <pre>
 <code>
 #include "SystemTime.h"
-#include &lt;iostream&gt;
+#include &#60;iostream&#62;
 
 using namespace std;
 
