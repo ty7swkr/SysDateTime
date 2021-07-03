@@ -244,8 +244,8 @@ SystemTime::from_string(const std::string &datetime,
 inline SystemTime &
 SystemTime::set_current()
 {
-  is_null_  = false;
   clock_    = std::chrono::system_clock::now();
+  is_null_  = false;
 
   return *this;
 }
@@ -307,7 +307,6 @@ SystemTime::nanosec() const
 inline SystemTime &
 SystemTime::set_date(const int64_t &year, const int64_t &month, const int64_t &day)
 {
-  is_null_ = false;
   std::tm value = to_tm();
 
   value.tm_year = year  - 1900;
@@ -315,6 +314,7 @@ SystemTime::set_date(const int64_t &year, const int64_t &month, const int64_t &d
   value.tm_mday = day;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -322,21 +322,18 @@ SystemTime::set_date(const int64_t &year, const int64_t &month, const int64_t &d
 inline SystemTime &
 SystemTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &sec, const Millisec &msec)
 {
-  is_null_ = false;
   return set_time(hour, min, sec, Nanosec(msec() * 1000000LL));
 }
 
 inline SystemTime &
 SystemTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &sec, const Microsec &usec)
 {
-  is_null_ = false;
   return set_time(hour, min, sec, Nanosec(usec() * 1000LL));
 }
 
 inline SystemTime &
 SystemTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &sec, const Nanosec &nsec)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_hour = hour;
@@ -344,6 +341,7 @@ SystemTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &sec
   value.tm_sec  = sec;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nsec());
+  is_null_ = false;
 
   return *this;
 }
@@ -366,7 +364,6 @@ inline SystemTime &
 SystemTime::set_datetime(const int64_t &year, const int64_t &month, const int64_t &day,
                          const int64_t &hour, const int64_t &min,   const int64_t &sec, const Nanosec &nsec)
 {
-  is_null_ = false;
   std::tm value = to_tm();
 
   value.tm_year = year  - 1900;
@@ -377,6 +374,7 @@ SystemTime::set_datetime(const int64_t &year, const int64_t &month, const int64_
   value.tm_sec  = sec;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nsec());
+  is_null_ = false;
 
   return *this;
 }
@@ -384,12 +382,12 @@ SystemTime::set_datetime(const int64_t &year, const int64_t &month, const int64_
 inline SystemTime &
 SystemTime::set_year(const int64_t &year)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_year = year - 1900;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -397,12 +395,12 @@ SystemTime::set_year(const int64_t &year)
 inline SystemTime &
 SystemTime::set_month(const int64_t &month)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_mon = month - 1;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -410,12 +408,12 @@ SystemTime::set_month(const int64_t &month)
 inline SystemTime &
 SystemTime::set_day(const int64_t &day)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_mday = day;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -423,12 +421,12 @@ SystemTime::set_day(const int64_t &day)
 inline SystemTime &
 SystemTime::set_hour(const int64_t &hour)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_hour = hour;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -436,12 +434,12 @@ SystemTime::set_hour(const int64_t &hour)
 inline SystemTime &
 SystemTime::set_min(const int64_t &min)
 {
-  is_null_ = false;
   std::tm value = localtime_r__(to_time_t());
 
   value.tm_min = min;
 
   clock_ = nano_time_t_to_time_point(std::mktime(&value), nanosec());
+  is_null_ = false;
 
   return *this;
 }
@@ -449,23 +447,26 @@ SystemTime::set_min(const int64_t &min)
 inline SystemTime &
 SystemTime::set_millisec(const int64_t &millisec)
 {
-  is_null_ = false;
   clock_ = milli_time_t_to_time_point(to_time_t(), millisec);
+  is_null_ = false;
+
   return *this;
 }
 
 inline SystemTime &
 SystemTime::set_microsec(const int64_t &microsec)
 {
-  is_null_ = false;
   clock_ = micro_time_t_to_time_point(to_time_t(), microsec);
+  is_null_ = false;
+
   return *this;
 }
 
 inline SystemTime &
 SystemTime::set_nanosec(const int64_t &nanosec)
 {
-  is_null_ = false;
   clock_ = nano_time_t_to_time_point(to_time_t(), nanosec);
+  is_null_ = false;
+
   return *this;
 }
