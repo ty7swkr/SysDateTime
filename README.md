@@ -71,7 +71,7 @@ int main(void)
     system_time = system_time.last_time_of_month();
   }
 
-  // ********* operator *********
+  // ********* operation *********
   {
     // classes for operation : Year, Month, Day, Hour, Min, Sec, Millisec, Microsec, Nanosec
     system_time.set(SystemTime::Month(5));
