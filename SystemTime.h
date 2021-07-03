@@ -22,10 +22,10 @@ public:
 
   /********* constructor *********/
   SystemTime() {}
-  SystemTime(const time_t           &value) { is_null_ = false; *this = value; } // nanosec is zero
-  SystemTime(const std::tm          &value) { is_null_ = false; *this = value; } // nanosec is zero
-  SystemTime(const struct timespec  &value) { is_null_ = false; *this = value; }
-  SystemTime(const struct timeval   &value) { is_null_ = false; *this = value; }
+  SystemTime(const time_t           &value) { *this = value; } // nanosec is zero
+  SystemTime(const std::tm          &value) { *this = value; } // nanosec is zero
+  SystemTime(const struct timespec  &value) { *this = value; }
+  SystemTime(const struct timeval   &value) { *this = value; }
   SystemTime(const std::chrono::system_clock::time_point &value) : is_null_(false), clock_(value) {}
 
   /********* returns the time value. *********/
@@ -56,6 +56,8 @@ public:
   // unstable function. only %Y %m %d %H %M %S %L(msec) %K(usec) %N(nano sec)
   bool from_string(const std::string &time_string,
                    const std::string &format = "%Y-%m-%d %H:%M:%S.%L");
+
+  bool is_null    () const { return is_null_; }
 
   /********* set time *********/
   SystemTime &set_current();
@@ -151,8 +153,6 @@ public:
   bool operator<=(const SystemTime &rhs) const { return clock_ <= rhs.clock_; }
   bool operator>=(const SystemTime &rhs) const { return clock_ >= rhs.clock_; }
   bool operator==(const SystemTime &rhs) const { return clock_ == rhs.clock_; }
-
-  bool is_null() const { return is_null_; }
 
 protected:
   enum
