@@ -100,3 +100,100 @@ int main(void)
 }
 </code>
 </pre>
+
+## output
+<pre>
+$ g++ example.cpp -o example
+$ ./example
+strftime 
+2021-07-03 11:23:21
+
+to_string 
+2021-07-03 11:23:21.247
+
+strptime("2011-04-05 11:34:22", "%Y-%m-%d %H:%M:%S") 
+2011-04-05 11:34:22
+
+from_string("2011-04-05 11:34:22.123456789", "%Y-%m-%d %H:%M:%S.%N") 
+2011-04-05 11:34:22.123456789
+
+set_current 
+2021-07-03 11:23:21.247
+
+set_date(2011, 4, 3) 
+2011-04-03 11:23:21.247
+
+set_time(11, 44, 21) 
+2011-04-03 11:44:21.000
+
+set_time(11, 44, 21, SystemTime::Millisec(123)) 
+2011-04-03 11:44:21.123
+
+set_time(11, 44, 21, SystemTime::Microsec(3456)) 
+2011-04-03 11:44:21.003456
+
+set_time(11, 44, 21, SystemTime::Nanosec(3456789)) 
+2011-04-03 11:44:21.003456789
+
+set_datetime(2021, 3, 1, 11, 44, 21) 
+2021-03-01 11:44:21
+
+set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Millisec(123)) 
+2021-03-01 11:44:21.123
+
+set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Microsec(3456)) 
+2021-03-01 11:44:21.003456
+
+set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Microsec(3456789)) 
+2021-03-01 11:44:21.003456789
+
+first_time_of_day 
+2021-07-03 00:00:00.000
+
+first_day_of_month 
+2021-07-01 11:23:21.248
+
+first_time_of_month 
+2021-07-01 00:00:00.000
+
+last_time_of_day 
+2021-07-03 23:59:59.999
+
+last_day_of_month 
+2021-07-31 11:23:21.248
+
+last_time_of_month 
+2021-07-31 23:59:59.999
+
+set(SystemTime::Month(5)) 
+2021-05-03 11:23:21.248
+
+system_time = SystemTime::Month(5) 
+2021-05-03 11:23:21.248
+
+add(SystemTime::Sec(88400)) 
+2021-07-04 11:56:41.248
+
+system_time = system_time.set_current() + SystemTime::Month(15) 
+2022-10-03 11:23:21.248
+
+system_time = system_time.set_current() - SystemTime::Day(300) 
+2020-09-06 11:23:21.248
+
+system_time += SystemTime::Month(5) 
+2021-12-03 11:23:21.248
+
+system_time -= SystemTime::Day(360) 
+2020-07-08 11:23:21.248
+
+2021-07-03 11:23:21.248
+year     2021
+month    7
+day      3
+hour     11
+min      23
+sec      21
+millisec 248
+microsec 248917
+nanosec  248917743
+</pre>
