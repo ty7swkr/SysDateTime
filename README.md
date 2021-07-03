@@ -5,8 +5,9 @@ C++11 std::chrono::system_clock wrapping class.
 
 ### example
 <pre>
+<code>
 #include "SystemTime.h"
-#include <iostream>
+#include iostream
 
 using namespace std;
 
@@ -97,6 +98,7 @@ int main(void)
 
   return 0;
 }
+</code>
 </pre>
 
 ## example.cpp output
