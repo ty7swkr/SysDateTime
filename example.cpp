@@ -21,7 +21,6 @@ int main(void)
     struct timeval tv;
     gettimeofday(&tv, NULL);
     SystemTime system_time5 = tv;
-    SystemTime system_time  = SystemTime::now();
   }
 
   SystemTime system_time  = SystemTime::now();
