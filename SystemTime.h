@@ -153,7 +153,6 @@ public:
                    const std::string &format = "%Y-%m-%d %H:%M:%S.%L");
 
   /********* set time *********/
-  // 아래 함수들의 반환값이 자기 자신 참조인지 복사인지 반듯이 주의해야 한다.
   SystemTime &set_current();
   SystemTime &set_date    (const int64_t &year, const int64_t &month, const int64_t &day);
   SystemTime &set_time    (const int64_t &hour, const int64_t &min,   const int64_t &sec, const Millisec &millisec);
