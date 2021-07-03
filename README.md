@@ -1,6 +1,6 @@
 # SystemTime
-A date and time library using C++11 chrono::system_clock
-* A header only library.
+A date-time class using c++11 std::chrono::system_clock
+* A header only class.
 * Compilers that support C++11
 
 ### example
