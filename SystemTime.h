@@ -103,50 +103,50 @@ public:
   SystemTime &operator= (const Millisec &value) { return set_millisec (value());}
   SystemTime &operator= (const Microsec &value) { return set_microsec (value());}
   SystemTime &operator= (const Nanosec  &value) { return set_nanosec  (value());}
-  SystemTime &operator= (const time_t   &value) { is_null_ = false; clock_ = time_t_to_time_point(value); return *this; }
-  SystemTime &operator= (std::tm         value) { is_null_ = false; clock_ = time_t_to_time_point(std::mktime(&value)); return *this; }
-  SystemTime &operator= (const struct timespec &value) { is_null_ = false; clock_ = nano_time_t_to_time_point (value.tv_sec, value.tv_nsec); return *this; }
-  SystemTime &operator= (const struct timeval  &value) { is_null_ = false; clock_ = micro_time_t_to_time_point(value.tv_sec, value.tv_usec); return *this; }
+  SystemTime &operator= (const time_t   &value) { clock_ = time_t_to_time_point(value); is_null_ = false; return *this; }
+  SystemTime &operator= (std::tm         value) { clock_ = time_t_to_time_point(std::mktime(&value)); is_null_ = false; return *this; }
+  SystemTime &operator= (const struct timespec &value) { clock_ = nano_time_t_to_time_point (value.tv_sec, value.tv_nsec); is_null_ = false; return *this; }
+  SystemTime &operator= (const struct timeval  &value) { clock_ = micro_time_t_to_time_point(value.tv_sec, value.tv_usec); is_null_ = false; return *this; }
 
   SystemTime  operator+ (const Year     &value) { SystemTime st = *this; return st.set_year  (st.year()  + value()); }
   SystemTime  operator+ (const Month    &value) { SystemTime st = *this; return st.set_month (st.month() + value()); }
-  SystemTime  operator+ (const Day      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::hours       (value()*24);return st; }
-  SystemTime  operator+ (const Hour     &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::hours       (value());   return st; }
-  SystemTime  operator+ (const Min      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::minutes     (value());   return st; }
-  SystemTime  operator+ (const Sec      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::seconds     (value());   return st; }
-  SystemTime  operator+ (const Millisec &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::milliseconds(value());   return st; }
-  SystemTime  operator+ (const Microsec &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::microseconds(value());   return st; }
-  SystemTime  operator+ (const Nanosec  &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ += std::chrono::nanoseconds (value());   return st; }
+  SystemTime  operator+ (const Day      &value) { SystemTime st = *this; st.clock_ += std::chrono::hours       (value()*24); st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Hour     &value) { SystemTime st = *this; st.clock_ += std::chrono::hours       (value());    st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Min      &value) { SystemTime st = *this; st.clock_ += std::chrono::minutes     (value());    st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Sec      &value) { SystemTime st = *this; st.clock_ += std::chrono::seconds     (value());    st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Millisec &value) { SystemTime st = *this; st.clock_ += std::chrono::milliseconds(value());    st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Microsec &value) { SystemTime st = *this; st.clock_ += std::chrono::microseconds(value());    st.is_null_ = false; return st; }
+  SystemTime  operator+ (const Nanosec  &value) { SystemTime st = *this; st.clock_ += std::chrono::nanoseconds (value());    st.is_null_ = false; return st; }
 
   SystemTime  operator- (const Year     &value) { SystemTime st = *this; return st.set_year  (st.year()  - value()); }
   SystemTime  operator- (const Month    &value) { SystemTime st = *this; return st.set_month (st.month() - value()); }
-  SystemTime  operator- (const Day      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::hours       (value()*24);return st; }
-  SystemTime  operator- (const Hour     &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::hours       (value());   return st; }
-  SystemTime  operator- (const Min      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::minutes     (value());   return st; }
-  SystemTime  operator- (const Sec      &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::seconds     (value());   return st; }
-  SystemTime  operator- (const Millisec &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::milliseconds(value());   return st; }
-  SystemTime  operator- (const Microsec &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::microseconds(value());   return st; }
-  SystemTime  operator- (const Nanosec  &value) { SystemTime st = *this; st.is_null_ = false; st.clock_ -= std::chrono::nanoseconds (value());   return st; }
+  SystemTime  operator- (const Day      &value) { SystemTime st = *this; st.clock_ -= std::chrono::hours       (value()*24); st.is_null_ = false; return st; }
+  SystemTime  operator- (const Hour     &value) { SystemTime st = *this; st.clock_ -= std::chrono::hours       (value());    st.is_null_ = false; return st; }
+  SystemTime  operator- (const Min      &value) { SystemTime st = *this; st.clock_ -= std::chrono::minutes     (value());    st.is_null_ = false; return st; }
+  SystemTime  operator- (const Sec      &value) { SystemTime st = *this; st.clock_ -= std::chrono::seconds     (value());    st.is_null_ = false; return st; }
+  SystemTime  operator- (const Millisec &value) { SystemTime st = *this; st.clock_ -= std::chrono::milliseconds(value());    st.is_null_ = false; return st; }
+  SystemTime  operator- (const Microsec &value) { SystemTime st = *this; st.clock_ -= std::chrono::microseconds(value());    st.is_null_ = false; return st; }
+  SystemTime  operator- (const Nanosec  &value) { SystemTime st = *this; st.clock_ -= std::chrono::nanoseconds (value());    st.is_null_ = false; return st; }
 
   SystemTime &operator+=(const Year     &value) { set_year  (year () + value()); return *this;  }
   SystemTime &operator+=(const Month    &value) { set_month (month() + value()); return *this;  }
-  SystemTime &operator+=(const Day      &value) { is_null_ = false; clock_ += std::chrono::hours        (value()*24); return *this; }
-  SystemTime &operator+=(const Hour     &value) { is_null_ = false; clock_ += std::chrono::hours        (value());    return *this; }
-  SystemTime &operator+=(const Min      &value) { is_null_ = false; clock_ += std::chrono::minutes      (value());    return *this; }
-  SystemTime &operator+=(const Sec      &value) { is_null_ = false; clock_ += std::chrono::seconds      (value());    return *this; }
-  SystemTime &operator+=(const Millisec &value) { is_null_ = false; clock_ += std::chrono::milliseconds (value());    return *this; }
-  SystemTime &operator+=(const Microsec &value) { is_null_ = false; clock_ += std::chrono::microseconds (value());    return *this; }
-  SystemTime &operator+=(const Nanosec  &value) { is_null_ = false; clock_ += std::chrono::nanoseconds  (value());    return *this; }
+  SystemTime &operator+=(const Day      &value) { clock_ += std::chrono::hours        (value()*24); is_null_ = false; return *this; }
+  SystemTime &operator+=(const Hour     &value) { clock_ += std::chrono::hours        (value());    is_null_ = false; return *this; }
+  SystemTime &operator+=(const Min      &value) { clock_ += std::chrono::minutes      (value());    is_null_ = false; return *this; }
+  SystemTime &operator+=(const Sec      &value) { clock_ += std::chrono::seconds      (value());    is_null_ = false; return *this; }
+  SystemTime &operator+=(const Millisec &value) { clock_ += std::chrono::milliseconds (value());    is_null_ = false; return *this; }
+  SystemTime &operator+=(const Microsec &value) { clock_ += std::chrono::microseconds (value());    is_null_ = false; return *this; }
+  SystemTime &operator+=(const Nanosec  &value) { clock_ += std::chrono::nanoseconds  (value());    is_null_ = false; return *this; }
 
   SystemTime &operator-=(const Year     &value) { set_year  (year () - value()); return *this; }
   SystemTime &operator-=(const Month    &value) { set_month (month() - value()); return *this; }
-  SystemTime &operator-=(const Day      &value) { is_null_ = false; clock_ -= std::chrono::hours        (value()*24); return *this; }
-  SystemTime &operator-=(const Hour     &value) { is_null_ = false; clock_ -= std::chrono::hours        (value());    return *this; }
-  SystemTime &operator-=(const Min      &value) { is_null_ = false; clock_ -= std::chrono::minutes      (value());    return *this; }
-  SystemTime &operator-=(const Sec      &value) { is_null_ = false; clock_ -= std::chrono::seconds      (value());    return *this; }
-  SystemTime &operator-=(const Millisec &value) { is_null_ = false; clock_ -= std::chrono::milliseconds (value());    return *this; }
-  SystemTime &operator-=(const Microsec &value) { is_null_ = false; clock_ -= std::chrono::microseconds (value());    return *this; }
-  SystemTime &operator-=(const Nanosec  &value) { is_null_ = false; clock_ -= std::chrono::nanoseconds  (value());    return *this; }
+  SystemTime &operator-=(const Day      &value) { clock_ -= std::chrono::hours        (value()*24); is_null_ = false; return *this; }
+  SystemTime &operator-=(const Hour     &value) { clock_ -= std::chrono::hours        (value());    is_null_ = false; return *this; }
+  SystemTime &operator-=(const Min      &value) { clock_ -= std::chrono::minutes      (value());    is_null_ = false; return *this; }
+  SystemTime &operator-=(const Sec      &value) { clock_ -= std::chrono::seconds      (value());    is_null_ = false; return *this; }
+  SystemTime &operator-=(const Millisec &value) { clock_ -= std::chrono::milliseconds (value());    is_null_ = false; return *this; }
+  SystemTime &operator-=(const Microsec &value) { clock_ -= std::chrono::microseconds (value());    is_null_ = false; return *this; }
+  SystemTime &operator-=(const Nanosec  &value) { clock_ -= std::chrono::nanoseconds  (value());    is_null_ = false; return *this; }
 
   bool operator< (const SystemTime &rhs) const { return clock_ <  rhs.clock_; }
   bool operator> (const SystemTime &rhs) const { return clock_ >  rhs.clock_; }
@@ -198,8 +198,8 @@ protected:
   }
 
 private:
-  bool is_null_ = true;
   std::chrono::system_clock::time_point clock_;
+  bool is_null_ = true;
 };
 
 #include "SystemTime.inl"
