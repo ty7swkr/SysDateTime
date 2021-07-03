@@ -121,7 +121,6 @@ int main(void)
     cout << "set(SystemTime::Month(5)) \n"
          << system_time.to_string() << endl << endl;
 
-    // set과 같음.
     system_time = SystemTime::now();
     system_time = SystemTime::Month(5);
     cout << "system_time = SystemTime::Month(5) \n"
