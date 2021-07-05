@@ -26,7 +26,7 @@ public:
   SystemTime(const std::tm          &value) { *this = value; } // nanosec is zero
   SystemTime(const struct timespec  &value) { *this = value; }
   SystemTime(const struct timeval   &value) { *this = value; }
-  SystemTime(const std::chrono::system_clock::time_point &value) : is_null_(false), clock_(value) {}
+  SystemTime(const std::chrono::system_clock::time_point &value) : clock_(value), is_null_(false) {}
 
   /********* returns the time value. *********/
   int64_t year()     const;
