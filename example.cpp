@@ -1,29 +1,29 @@
-#include "SystemTime.h"
-
+#include <abc/system/SysDateTime.h>
 #include <iostream>
 #include <unistd.h>
 #include <sys/time.h>
 
+//using namespace abc;
 using namespace std;
 
 int main(void)
 {
   // ********* initialization *********
   {
-    SystemTime system_time1 = SystemTime::now();
-    SystemTime system_time2 = std::chrono::system_clock::now();
-    SystemTime system_time3 = time(NULL);
+    SysDateTime system_time1 = SysDateTime::now();
+    SysDateTime system_time2 = std::chrono::system_clock::now();
+    SysDateTime system_time3 = time(NULL);
 
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
-    SystemTime system_time4 = ts;
+    SysDateTime system_time4 = ts;
 
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    SystemTime system_time5 = tv;
+    SysDateTime system_time5 = tv;
   }
 
-  SystemTime system_time  = SystemTime::now();
+  SysDateTime system_time  = SysDateTime::now();
 
   // ********* conversion *********
   {
@@ -48,119 +48,69 @@ int main(void)
          << system_time.to_string("%Y-%m-%d %H:%M:%S.%N") << endl << endl;
   }
 
-  // ********* set time *********
-  {
-    system_time.set_current();
-    cout << "set_current \n" << system_time.to_string() << endl << endl;
+  SysTime time = SysTime::now(); cout << time.to_string() << " SysTime time = SysTime::now();" << endl;
+  time  = SysTime::Hour(10); cout << time.to_string() << " time  = SysTime::Hour(10);" << endl;
+  time += SysTime::Hour(10); cout << time.to_string() << " time += SysTime::Hour(10);" << endl;
+  time -= SysTime::Hour(10); cout << time.to_string() << " time -= SysTime::Hour(10);" << endl;
 
-    system_time.set_date(2011, 4, 3);
-    cout << "set_date(2011, 4, 3) \n" << system_time.to_string() << endl << endl;
+  time  = SysTime::Min(67); cout << time.to_string() << " time  = SysTime::Min(67);" << endl;
+  time += SysTime::Min(67); cout << time.to_string() << " time += SysTime::Min(67);" << endl;
+  time -= SysTime::Min(67); cout << time.to_string() << " time -= SysTime::Min(67);" << endl;
 
-    system_time.set_time(11, 44, 21);
-    cout << "set_time(11, 44, 21) \n" << system_time.to_string() << endl << endl;
+  time  = SysTime::Sec(85); cout << time.to_string() << " time  = SysTime::Sec(15);" << endl;
+  time += SysTime::Sec(85); cout << time.to_string() << " time += SysTime::Sec(15);" << endl;
+  time -= SysTime::Sec(85); cout << time.to_string() << " time -= SysTime::Sec(15);" << endl;
 
-    system_time.set_time(11, 44, 21, SystemTime::Millisec(123));
-    cout << "set_time(11, 44, 21, SystemTime::Millisec(123)) \n"
-         << system_time.to_string() << endl << endl;
+  time  = SysTime::Millisec(15); cout << time.to_string() << " time  = SysTime::Millisec(15);" << endl;
+  time += SysTime::Millisec(15); cout << time.to_string() << " time += SysTime::Millisec(15);" << endl;
+  time -= SysTime::Millisec(15); cout << time.to_string() << " time -= SysTime::Millisec(15);" << endl;
 
-    system_time.set_time(11, 44, 21, SystemTime::Microsec(3456));
-    cout << "set_time(11, 44, 21, SystemTime::Microsec(3456)) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S.%K") << endl << endl;
+  SysDate date = SysDate::now(); cout << date.to_string() << " SysDate date = SysDate::now();" << endl;
+  date  = SysDate::Year(2020); cout << date.to_string() << " date  = SysDate::Year(2020);" << endl;
+  date += SysDate::Year(4); cout << date.to_string() << " date += SysDate::Year(4);" << endl;
+  date -= SysDate::Year(4); cout << date.to_string() << " date -= SysDate::Year(4);" << endl;
 
-    system_time.set_time(11, 44, 21, SystemTime::Nanosec (3456789));
-    cout << "set_time(11, 44, 21, SystemTime::Nanosec(3456789)) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S.%N") << endl << endl;
+  date  = SysDate::Month(10); cout << date.to_string() << " date  = SysDate::Month(10);" << endl;
+  date += SysDate::Month(10); cout << date.to_string() << " date += SysDate::Month(10);" << endl;
+  date -= SysDate::Month(10); cout << date.to_string() << " date -= SysDate::Month(10);" << endl;
 
-    system_time.set_datetime(2021, 3, 1, 11, 44, 21);
-    cout << "set_datetime(2021, 3, 1, 11, 44, 21) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S") << endl << endl;
+  date  = SysDate::Day(7); cout << date.to_string() << " date  = SysDate::Day(7)" << endl;
+  date += SysDate::Day(7); cout << date.to_string() << " date += SysDate::Day(7)" << endl;
+  date -= SysDate::Day(7); cout << date.to_string() << " date -= SysDate::Day(7)" << endl;
 
-    system_time.set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Millisec(123));
-    cout << "set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Millisec(123)) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S.%L") << endl << endl;
+  SysDateTime datetime = SysDateTime::now(); cout << datetime.to_string() << " SysDateTime datetime = SysTime::now();" << endl;
+  datetime = date; cout << datetime.to_string() << " datetime = date;" << endl;
+  datetime = time; cout << datetime.to_string() << " datetime = date;" << endl;
 
-    system_time.set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Microsec(3456));
-    cout << "set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Microsec(3456)) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S.%K") << endl << endl;
+  datetime  = SysTime::Hour(10); cout << datetime.to_string() << " datetime  = SysTime::Hour(10);" << endl;
+  datetime += SysTime::Hour(10); cout << datetime.to_string() << " datetime += SysTime::Hour(10);" << endl;
+  datetime -= SysTime::Hour(10); cout << datetime.to_string() << " datetime -= SysTime::Hour(10);" << endl;
 
-    system_time.set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Nanosec (3456789));
-    cout << "set_datetime(2021, 3, 1, 11, 44, 21, SystemTime::Microsec(3456789)) \n"
-         << system_time.to_string("%Y-%m-%d %H:%M:%S.%N") << endl << endl;
+  datetime  = SysTime::Min(67); cout << datetime.to_string() << " datetime  = SysTime::Min(67);" << endl;
+  datetime += SysTime::Min(67); cout << datetime.to_string() << " datetime += SysTime::Min(67);" << endl;
+  datetime -= SysTime::Min(67); cout << datetime.to_string() << " datetime -= SysTime::Min(67);" << endl;
 
-    system_time = SystemTime().set_current().first_time_of_day();
-    cout << "first_time_of_day \n"
-         << system_time.to_string() << endl << endl;
+  datetime  = SysTime::Sec(85); cout << datetime.to_string() << " datetime  = SysTime::Sec(15);" << endl;
+  datetime += SysTime::Sec(85); cout << datetime.to_string() << " datetime += SysTime::Sec(15);" << endl;
+  datetime -= SysTime::Sec(85); cout << datetime.to_string() << " datetime -= SysTime::Sec(15);" << endl;
 
-    system_time = SystemTime().set_current().first_day_of_month();
-    cout << "first_day_of_month \n"
-         << system_time.to_string() << endl << endl;
+  datetime  = SysTime::Millisec(15); cout << datetime.to_string() << " datetime  = SysTime::Millisec(15);" << endl;
+  datetime += SysTime::Millisec(15); cout << datetime.to_string() << " datetime += SysTime::Millisec(15);" << endl;
+  datetime -= SysTime::Millisec(15); cout << datetime.to_string() << " datetime -= SysTime::Millisec(15);" << endl;
 
-    system_time = SystemTime().set_current().first_time_of_month();
-    cout << "first_time_of_month \n"
-         << system_time.to_string() << endl << endl;
+  datetime  = SysDate::Year(2020); cout << datetime.to_string() << " datetime  = SysDate::Year(2020);" << endl;
+  datetime += SysDate::Year(4); cout << datetime.to_string() << " datetime += SysDate::Year(4);" << endl;
+  datetime -= SysDate::Year(4); cout << datetime.to_string() << " datetime -= SysDate::Year(4);" << endl;
 
-    system_time = SystemTime().set_current().last_time_of_day();
-    cout << "last_time_of_day \n"
-         << system_time.to_string() << endl << endl;
+  datetime  = SysDate::Month(10); cout << datetime.to_string() << " datetime  = SysDate::Month(10);" << endl;
+  datetime += SysDate::Month(10); cout << datetime.to_string() << " datetime += SysDate::Month(10);" << endl;
+  datetime -= SysDate::Month(10); cout << datetime.to_string() << " datetime -= SysDate::Month(10);" << endl;
 
-    system_time = SystemTime().set_current().last_day_of_month();
-    cout << "last_day_of_month \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = SystemTime().set_current().last_time_of_month();
-    cout << "last_time_of_month \n"
-         << system_time.to_string() << endl << endl;
-  }
-
-  // ********* operation *********
-  {
-    // Year, Month, Day, Hour, Min, Sec, Millisec, Microsec, Nanosec, time_t, tm, timespec, timeval
-    system_time = SystemTime::now();
-    system_time.set(SystemTime::Month(5));
-    cout << "set(SystemTime::Month(5)) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = SystemTime::now();
-    system_time = SystemTime::Month(5);
-    cout << "system_time = SystemTime::Month(5) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = SystemTime::now();
-    system_time.add(SystemTime::Sec(88400));
-    cout << "add(SystemTime::Sec(88400)) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = system_time.set_current() + SystemTime::Month(15);
-    cout << "system_time = system_time.set_current() + SystemTime::Month(15) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = system_time.set_current() - SystemTime::Day(300);
-    cout << "system_time = system_time.set_current() - SystemTime::Day(300) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = SystemTime::now();
-    system_time += SystemTime::Month(5);
-    cout << "system_time += SystemTime::Month(5) \n"
-         << system_time.to_string() << endl << endl;
-
-    system_time = SystemTime::now();
-    system_time -= SystemTime::Day(360);
-    cout << "system_time -= SystemTime::Day(360) \n"
-         << system_time.to_string() << endl << endl;
-
-  }
-
-  system_time = SystemTime::now();
-  cout << system_time.to_string() << endl;
-  cout << "year     " << system_time.year()      << endl;
-  cout << "month    " << system_time.month()     << endl;
-  cout << "day      " << system_time.day()       << endl;
-  cout << "hour     " << system_time.hour()      << endl;
-  cout << "min      " << system_time.min()       << endl;
-  cout << "sec      " << system_time.sec()       << endl;
-  cout << "millisec " << system_time.millisec()  << endl;
-  cout << "microsec " << system_time.microsec()  << endl;
-  cout << "nanosec  " << system_time.nanosec()   << endl;
+  datetime  = SysDate::Day(7); cout << datetime.to_string() << " datetime  = SysDate::Day(7)" << endl;
+  datetime += SysDate::Day(7); cout << datetime.to_string() << " datetime += SysDate::Day(7)" << endl;
+  datetime -= SysDate::Day(7); cout << datetime.to_string() << " datetime -= SysDate::Day(7)" << endl;
 
   return 0;
 }
+
+
