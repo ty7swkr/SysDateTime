@@ -112,10 +112,10 @@ SysDateTime::strftime(std::string format) const
     format.replace(format.find("%L"), 2, to_stringf(millisec(), "%03lld"));
 
   if (format.find("%K") != std::string::npos)
-    format.replace(format.find("%L"), 2, to_stringf(millisec(), "%06lld"));
+    format.replace(format.find("%K"), 2, to_stringf(millisec(), "%06lld"));
 
   if (format.find("%N") != std::string::npos)
-    format.replace(format.find("%L"), 2, to_stringf(millisec(), "%09lld"));
+    format.replace(format.find("%N"), 2, to_stringf(millisec(), "%09lld"));
 
   std::tm tm = localtime_r__(to_time_t());
 
