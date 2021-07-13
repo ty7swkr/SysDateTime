@@ -15,18 +15,10 @@ SysDateTime::date() const
   return SysDate(year(), month(), day());
 }
 
-inline
-std::tm localtime_r__(const std::time_t &t)
-{
-  std::tm r;
-  localtime_r(&t, &r);
-  return r;
-}
-
 inline std::tm
 SysDateTime::to_tm() const
 {
-  return localtime_r__(to_time_t());
+  return SysTime::localtime(to_time_t());
 }
 
 inline struct timespec
@@ -117,7 +109,26 @@ SysDateTime::strftime(std::string format) const
   if (format.find("%N") != std::string::npos)
     format.replace(format.find("%N"), 2, to_stringf(millisec(), "%09lld"));
 
-  std::tm tm = localtime_r__(to_time_t());
+  std::tm tm = SysTime::localtime(to_time_t());
+
+  std::ostringstream str_time;
+  str_time << std::put_time(&tm, format.c_str());
+  return str_time.str();
+}
+
+inline std::string
+SysDateTime::strftime_utc(std::string format) const
+{
+  if (format.find("%L") != std::string::npos)
+    format.replace(format.find("%L"), 2, to_stringf(millisec(), "%03lld"));
+
+  if (format.find("%K") != std::string::npos)
+    format.replace(format.find("%K"), 2, to_stringf(millisec(), "%06lld"));
+
+  if (format.find("%N") != std::string::npos)
+    format.replace(format.find("%N"), 2, to_stringf(millisec(), "%09lld"));
+
+  std::tm tm = SysTime::gmtime(to_time_t());
 
   std::ostringstream str_time;
   str_time << std::put_time(&tm, format.c_str());
@@ -139,6 +150,7 @@ SysDateTime::strptime(const std::string &time_string,
     return false;
 
   clock_ = time_t_to_time_point(std::mktime(&tm));
+  is_null_ = false;
   return true;
 }
 
@@ -346,7 +358,7 @@ SysDateTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &se
 inline SysDateTime &
 SysDateTime::set_time(const int64_t &hour, const int64_t &min, const int64_t &sec, const SysTime::Nanosec &nsec)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_hour = hour;
   value.tm_min  = min;
@@ -394,7 +406,7 @@ SysDateTime::set_datetime(const int64_t &year, const int64_t &month, const int64
 inline SysDateTime &
 SysDateTime::set_year(const int64_t &year)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_year = year - 1900;
 
@@ -407,7 +419,7 @@ SysDateTime::set_year(const int64_t &year)
 inline SysDateTime &
 SysDateTime::set_month(const int64_t &month)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_mon = month - 1;
 
@@ -420,7 +432,7 @@ SysDateTime::set_month(const int64_t &month)
 inline SysDateTime &
 SysDateTime::set_day(const int64_t &day)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_mday = day;
 
@@ -433,7 +445,7 @@ SysDateTime::set_day(const int64_t &day)
 inline SysDateTime &
 SysDateTime::set_hour(const int64_t &hour)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_hour = hour;
 
@@ -446,7 +458,7 @@ SysDateTime::set_hour(const int64_t &hour)
 inline SysDateTime &
 SysDateTime::set_min(const int64_t &min)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_min = min;
 
@@ -459,7 +471,7 @@ SysDateTime::set_min(const int64_t &min)
 inline SysDateTime &
 SysDateTime::set_sec(const int64_t &sec)
 {
-  std::tm value = localtime_r__(to_time_t());
+  std::tm value = SysTime::localtime(to_time_t());
 
   value.tm_min = sec;
 
