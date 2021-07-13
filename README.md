@@ -53,9 +53,9 @@ date -= SysDate::Month(10);        2020-10-13
 date  = SysDate::Day(7);           2020-10-07
 date += SysDate::Day(7);           2020-10-14
 date -= SysDate::Day(7);           2020-10-07
-date.set(SysTime::Month(10));      2020-10-07
-date.add(SysTime::Month(10));      2021-08-07
-date.add(SysTime::Month(-10));     2020-10-07
+date.set(SysDate::Month(10));      2020-10-07
+date.add(SysDate::Month(10));      2021-08-07
+date.add(SysDate::Month(-10));     2020-10-07
 date.year();     2020
 date.month();    10
 date.day();      7
@@ -84,9 +84,9 @@ datetime -= SysDate::Month(10);    2020-10-07 12:25:25.015000000
 datetime  = SysDate::Day(7);       2020-10-07 12:25:25.015000000
 datetime += SysDate::Day(7);       2020-10-14 12:25:25.015000000
 datetime -= SysDate::Day(7);       2020-10-07 12:25:25.015000000
-datetime.set(SysTime::Month(10));  2020-10-07 12:25:25.015000000
-datetime.add(SysTime::Month(10));  2021-08-07 12:25:25.015000000
-datetime.add(SysTime::Month(-10)); 2020-10-07 12:25:25.015000000
+datetime.set(SysDate::Month(10));  2020-10-07 12:25:25.015000000
+datetime.add(SysDate::Month(10));  2021-08-07 12:25:25.015000000
+datetime.add(SysDate::Month(-10)); 2020-10-07 12:25:25.015000000
 datetime.year();     2020
 datetime.month();    10
 datetime.day();      7
