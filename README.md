@@ -62,7 +62,7 @@ date.day();      7
 
 SysDateTime datetime = SysTime::now(); 2021-07-13 11:35:33.537
 datetime = date;                   2020-10-07 11:35:33.537
-datetime = date;                   2020-10-07 10:08:25.000
+datetime = time;                   2020-10-07 10:08:25.000
 datetime  = SysTime::Hour(10);     2020-10-07 10:08:25.000
 datetime += SysTime::Hour(10);     2020-10-07 20:08:25.000
 datetime -= SysTime::Hour(10);     2020-10-07 10:08:25.000
