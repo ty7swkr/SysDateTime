@@ -2,6 +2,9 @@
 A date-time class using c++11 std::chrono::system_clock
 
 ## output of example.cpp
+<pre>
+$ g++ example.cpp -std=c++11 -o example
+$ example
 strftime     2021-07-13 12:02:19
 strftime_utc 2021-07-13 03:02:19
 to_string    2021-07-13 12:02:19.610
@@ -94,3 +97,4 @@ datetime.millisec(); 15
 datetime.microsec(); 15000
 datetime.nanosec();  15000000
 
+</pre>
