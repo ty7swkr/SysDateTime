@@ -1,29 +1,22 @@
-# SysDateTime
-A date-time class using c++11 std::chrono::system_clock
-
-## output of example.cpp
-<pre>
-$ g++ example.cpp -std=c++11 -o example
-$ ./example
-strftime     2021-07-13 11:44:49
-strftime_utc 2021-07-13 02:44:49
-to_string    2021-07-13 11:44:49.810
+strftime     2021-07-13 12:02:19
+strftime_utc 2021-07-13 03:02:19
+to_string    2021-07-13 12:02:19.610
 strptime("2011-04-05 11:34:22", "%Y-%m-%d %H:%M:%S") 
 2011-04-05 11:34:22
 
 from_string("2011-04-05 11:34:22.123456789", "%Y-%m-%d %H:%M:%S.%N") 
 2011-04-05 11:34:22.123456789
 
-SysTime time = SysTime::now();     11:44:49.810481614
-time  = SysTime::Hour(10);         10:44:49.810481614
-time += SysTime::Hour(10);         20:44:49.810481614
-time -= SysTime::Hour(10);         10:44:49.810481614
-time  = SysTime::Min(67);          11:07:49.810481614
-time += SysTime::Min(67);          12:14:49.810481614
-time -= SysTime::Min(67);          11:07:49.810481614
-time  = SysTime::Sec(15);          11:08:25.810481614
-time += SysTime::Sec(15);          11:09:50.810481614
-time -= SysTime::Sec(15);          11:08:25.810481614
+SysTime time = SysTime::now();     12:02:19.610985561
+time  = SysTime::Hour(10);         10:02:19.610985561
+time += SysTime::Hour(10);         20:02:19.610985561
+time -= SysTime::Hour(10);         10:02:19.610985561
+time  = SysTime::Min(67);          11:07:19.610985561
+time += SysTime::Min(67);          12:14:19.610985561
+time -= SysTime::Min(67);          11:07:19.610985561
+time  = SysTime::Sec(85);          11:08:25.610985561
+time += SysTime::Sec(85);          11:09:50.610985561
+time -= SysTime::Sec(85);          11:08:25.610985561
 time  = SysTime::Millisec(15);     11:08:25.015000000
 time += SysTime::Millisec(15);     11:08:25.030000000
 time -= SysTime::Millisec(15);     11:08:25.015000000
@@ -60,8 +53,8 @@ date.year();     2020
 date.month();    10
 date.day();      7
 
-SysDateTime datetime = SysTime::now(); 2021-07-13 11:44:49.810943048
-datetime = date;                   2020-10-07 11:44:49.810943048
+SysDateTime datetime = SysTime::now(); 2021-07-13 12:02:19.612083940
+datetime = date;                   2020-10-07 12:02:19.612083940
 datetime = time;                   2020-10-07 10:08:25.000000015
 datetime  = SysTime::Hour(10);     2020-10-07 10:08:25.000000015
 datetime += SysTime::Hour(10);     2020-10-07 20:08:25.000000015
@@ -69,9 +62,9 @@ datetime -= SysTime::Hour(10);     2020-10-07 10:08:25.000000015
 datetime  = SysTime::Min(67);      2020-10-07 11:07:25.000000015
 datetime += SysTime::Min(67);      2020-10-07 12:14:25.000000015
 datetime -= SysTime::Min(67);      2020-10-07 11:07:25.000000015
-datetime  = SysTime::Sec(15);      2020-10-07 12:25:25.000000015
-datetime += SysTime::Sec(15);      2020-10-07 12:26:50.000000015
-datetime -= SysTime::Sec(15);      2020-10-07 12:25:25.000000015
+datetime  = SysTime::Sec(85);      2020-10-07 12:25:25.000000015
+datetime += SysTime::Sec(85);      2020-10-07 12:26:50.000000015
+datetime -= SysTime::Sec(85);      2020-10-07 12:25:25.000000015
 datetime  = SysTime::Millisec(15); 2020-10-07 12:25:25.015000000
 datetime += SysTime::Millisec(15); 2020-10-07 12:25:25.030000000
 datetime -= SysTime::Millisec(15); 2020-10-07 12:25:25.015000000
@@ -96,5 +89,3 @@ datetime.sec();      25
 datetime.millisec(); 15
 datetime.microsec(); 15000
 datetime.nanosec();  15000000
-
-</pre>
