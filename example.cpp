@@ -144,9 +144,9 @@ int main(void)
   datetime -= SysDate::Day(7);        cout << "datetime -= SysDate::Day(7);       " << datetime.to_string() << endl;
 
   // template function
-  datetime.set(SysDate::Month(10));   cout << "datetime.set(SysTime::Month(10));  " << time.to_string() << endl;
-  datetime.add(SysDate::Month(10));   cout << "datetime.add(SysTime::Month(10));  " << time.to_string() << endl;
-  datetime.add(SysDate::Month(-10));  cout << "datetime.add(SysTime::Month(-10)); " << time.to_string() << endl;
+  datetime.set(SysDate::Month(10));   cout << "datetime.set(SysTime::Month(10));  " << datetime.to_string() << endl;
+  datetime.add(SysDate::Month(10));   cout << "datetime.add(SysTime::Month(10));  " << datetime.to_string() << endl;
+  datetime.add(SysDate::Month(-10));  cout << "datetime.add(SysTime::Month(-10)); " << datetime.to_string() << endl;
 
   cout << "datetime.year();     " << datetime.year() << endl;
   cout << "datetime.month();    " << datetime.month() << endl;
