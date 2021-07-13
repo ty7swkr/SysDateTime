@@ -1,3 +1,9 @@
+#ifndef SYSDATETIME_H_
+#define SYSDATETIME_H_
+
+#include <SysDate.h>
+#include <SysTime.h>
+
 class SysDateTime
 {
 public:
