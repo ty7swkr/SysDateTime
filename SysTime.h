@@ -93,6 +93,20 @@ public:
     return to_stringf(hour_, "%02lld:") + to_stringf(min_, "%02lld:") + to_stringf(sec_, "%02lld.") + to_stringf(nano_, "%09lld");
   }
 
+  static std::tm localtime(const std::time_t &t)
+  {
+    std::tm r;
+    localtime_r(&t, &r);
+    return r;
+  }
+
+  static std::tm gmtime(const std::time_t &t)
+  {
+    std::tm r;
+    gmtime_r(&t, &r);
+    return r;
+  }
+
 private:
   static std::string
   to_stringf(const int64_t &value, const std::string &format = "%03ll")
@@ -118,8 +132,7 @@ SysTime::now()
 
   time_t time_t_v = std::chrono::system_clock::to_time_t(clock);
 
-  std::tm to;
-  localtime_r(&time_t_v, &to);
+  std::tm to = localtime(time_t_v);
 
   int64_t nano =
       std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -160,8 +173,7 @@ SysTime::set(const int64_t &hour, const int64_t &min, const int64_t &sec, const 
     nano_ = nano;
   }
 
-  std::tm to;
-  localtime_r(&from_time_t, &to);
+  std::tm to = localtime(from_time_t);
 
   hour_ = to.tm_hour;
   min_  = to.tm_min;
