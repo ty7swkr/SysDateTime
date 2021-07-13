@@ -1,9 +1,3 @@
-#ifndef SYSDATETIME_H_
-#define SYSDATETIME_H_
-
-#include <SysDate.h>
-#include <SysTime.h>
-
 class SysDateTime
 {
 public:
@@ -45,6 +39,7 @@ public:
   struct timeval  to_timeval  () const;
   // strftime format + %L(msec) %K(usec) %N(nano sec)
   std::string     strftime    (std::string format = "%Y-%m-%d %H:%M:%S") const;
+  std::string     strftime_utc(std::string format = "%Y-%m-%d %H:%M:%S") const;
   std::string     to_string   (std::string format = "%Y-%m-%d %H:%M:%S.%L") const { return strftime(format); }
 
   /********* parsing *********/
