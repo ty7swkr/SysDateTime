@@ -61,9 +61,9 @@ int main(void)
   time += SysTime::Min(67);           cout << "time += SysTime::Min(67);          " << time.to_string() << endl;
   time -= SysTime::Min(67);           cout << "time -= SysTime::Min(67);          " << time.to_string() << endl;
 
-  time  = SysTime::Sec(85);           cout << "time  = SysTime::Sec(15);          " << time.to_string() << endl;
-  time += SysTime::Sec(85);           cout << "time += SysTime::Sec(15);          " << time.to_string() << endl;
-  time -= SysTime::Sec(85);           cout << "time -= SysTime::Sec(15);          " << time.to_string() << endl;
+  time  = SysTime::Sec(85);           cout << "time  = SysTime::Sec(85);          " << time.to_string() << endl;
+  time += SysTime::Sec(85);           cout << "time += SysTime::Sec(85);          " << time.to_string() << endl;
+  time -= SysTime::Sec(85);           cout << "time -= SysTime::Sec(85);          " << time.to_string() << endl;
 
   time  = SysTime::Millisec(15);      cout << "time  = SysTime::Millisec(15);     " << time.to_string() << endl;
   time += SysTime::Millisec(15);      cout << "time += SysTime::Millisec(15);     " << time.to_string() << endl;
@@ -123,9 +123,9 @@ int main(void)
   datetime += SysTime::Min(67);       cout << "datetime += SysTime::Min(67);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
   datetime -= SysTime::Min(67);       cout << "datetime -= SysTime::Min(67);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
 
-  datetime  = SysTime::Sec(85);       cout << "datetime  = SysTime::Sec(15);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
-  datetime += SysTime::Sec(85);       cout << "datetime += SysTime::Sec(15);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
-  datetime -= SysTime::Sec(85);       cout << "datetime -= SysTime::Sec(15);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
+  datetime  = SysTime::Sec(85);       cout << "datetime  = SysTime::Sec(85);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
+  datetime += SysTime::Sec(85);       cout << "datetime += SysTime::Sec(85);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
+  datetime -= SysTime::Sec(85);       cout << "datetime -= SysTime::Sec(85);      " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
 
   datetime  = SysTime::Millisec(15);  cout << "datetime  = SysTime::Millisec(15); " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
   datetime += SysTime::Millisec(15);  cout << "datetime += SysTime::Millisec(15); " << datetime.to_string("%Y-%m-%d %H:%M:%S.%N") << endl;
