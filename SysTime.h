@@ -10,14 +10,17 @@
 
 #include <string>
 #include <chrono>
+#include <iomanip>
+
 #include <string.h>
 
 class SysTime
 {
 public:
   SysTime() {}
-  SysTime(const int64_t &hour, const int64_t &min, const int64_t &sec, const int64_t &nanosec)
-  { set(hour, min, sec, nanosec); }
+  SysTime(const int64_t &hour, const int64_t &min, const int64_t &sec, const int64_t &nanosec) { set(hour, min, sec, nanosec); }
+  SysTime(const time_t  &value) { *this = value; }
+  SysTime(const std::string &time_string, const std::string &format) { this->strptime(time_string, format); }
 
   /********* classes for operation *********/
   struct Hour     { Hour    ():value(0) {} Hour    (const int64_t &value):value(value){} const int64_t &operator()() const { return value; } int64_t value; };
@@ -47,40 +50,41 @@ public:
   template<typename T> SysTime &set(const T &value){ return operator= (value); }
   template<typename T> SysTime &add(const T &value){ return operator+=(value); }
 
-  SysTime &operator=  (const Hour     &value) { return set_hour     (value());}
-  SysTime &operator=  (const Min      &value) { return set_min      (value());}
-  SysTime &operator=  (const Sec      &value) { return set_sec      (value());}
-  SysTime &operator=  (const Millisec &value) { return set_millisec (value());}
-  SysTime &operator=  (const Microsec &value) { return set_microsec (value());}
-  SysTime &operator=  (const Nanosec  &value) { return set_nanosec  (value());}
+  SysTime &operator=  (const Hour     &rhs) { return set_hour     (rhs());}
+  SysTime &operator=  (const Min      &rhs) { return set_min      (rhs());}
+  SysTime &operator=  (const Sec      &rhs) { return set_sec      (rhs());}
+  SysTime &operator=  (const Millisec &rhs) { return set_millisec (rhs());}
+  SysTime &operator=  (const Microsec &rhs) { return set_microsec (rhs());}
+  SysTime &operator=  (const Nanosec  &rhs) { return set_nanosec  (rhs());}
+  SysTime &operator=  (const time_t   &rhs);
 
-  SysTime &operator+= (const Hour     &value) { set_hour    (hour_  + value()); return *this; }
-  SysTime &operator+= (const Min      &value) { set_min     (min_   + value()); return *this; }
-  SysTime &operator+= (const Sec      &value) { set_sec     (sec_   + value()); return *this; }
-  SysTime &operator+= (const Millisec &value) { set_nanosec (nano_  + value() * 1000000LL); return *this; }
-  SysTime &operator+= (const Microsec &value) { set_nanosec (nano_  + value() * 1000LL); return *this; }
-  SysTime &operator+= (const Nanosec  &value) { set_nanosec (nano_  + value()); return *this; }
+  SysTime &operator+= (const Hour     &rhs) { set_hour    (hour_  + rhs()); return *this; }
+  SysTime &operator+= (const Min      &rhs) { set_min     (min_   + rhs()); return *this; }
+  SysTime &operator+= (const Sec      &rhs) { set_sec     (sec_   + rhs()); return *this; }
+  SysTime &operator+= (const Millisec &rhs) { set_nanosec (nano_  + rhs() * 1000000LL); return *this; }
+  SysTime &operator+= (const Microsec &rhs) { set_nanosec (nano_  + rhs() * 1000LL); return *this; }
+  SysTime &operator+= (const Nanosec  &rhs) { set_nanosec (nano_  + rhs()); return *this; }
 
-  SysTime &operator-= (const Hour     &value) { set_hour    (hour_  - value()); return *this; }
-  SysTime &operator-= (const Min      &value) { set_min     (min_   - value()); return *this; }
-  SysTime &operator-= (const Sec      &value) { set_sec     (sec_   - value()); return *this; }
-  SysTime &operator-= (const Millisec &value) { set_nanosec (nano_  - value() * 1000000LL); return *this; }
-  SysTime &operator-= (const Microsec &value) { set_nanosec (nano_  - value() * 1000LL); return *this; }
-  SysTime &operator-= (const Nanosec  &value) { set_nanosec (nano_  - value()); return *this; }
+  SysTime &operator-= (const Hour     &rhs) { set_hour    (hour_  - rhs()); return *this; }
+  SysTime &operator-= (const Min      &rhs) { set_min     (min_   - rhs()); return *this; }
+  SysTime &operator-= (const Sec      &rhs) { set_sec     (sec_   - rhs()); return *this; }
+  SysTime &operator-= (const Millisec &rhs) { set_nanosec (nano_  - rhs() * 1000000LL); return *this; }
+  SysTime &operator-= (const Microsec &rhs) { set_nanosec (nano_  - rhs() * 1000LL); return *this; }
+  SysTime &operator-= (const Nanosec  &rhs) { set_nanosec (nano_  - rhs()); return *this; }
 
-  SysTime  operator+  (const Hour     &value) const { SysTime sd = *this; return sd.set_hour    (sd.hour_ + value()); }
-  SysTime  operator+  (const Min      &value) const { SysTime sd = *this; return sd.set_min     (sd.min_  + value()); }
-  SysTime  operator+  (const Sec      &value) const { SysTime sd = *this; return sd.set_sec     (sd.sec_  + value()); }
-  SysTime  operator+  (const Millisec &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + value() * 1000000LL); }
-  SysTime  operator+  (const Microsec &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + value() * 1000LL); }
-  SysTime  operator+  (const Nanosec  &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + value()); }
+  SysTime  operator+  (const Hour     &rhs) const { SysTime sd = *this; return sd.set_hour    (sd.hour_ + rhs()); }
+  SysTime  operator+  (const Min      &rhs) const { SysTime sd = *this; return sd.set_min     (sd.min_  + rhs()); }
+  SysTime  operator+  (const Sec      &rhs) const { SysTime sd = *this; return sd.set_sec     (sd.sec_  + rhs()); }
+  SysTime  operator+  (const Millisec &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + rhs() * 1000000LL); }
+  SysTime  operator+  (const Microsec &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + rhs() * 1000LL); }
+  SysTime  operator+  (const Nanosec  &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ + rhs()); }
 
-  SysTime  operator-  (const Hour     &value) const { SysTime sd = *this; return sd.set_hour    (sd.hour_ - value()); }
-  SysTime  operator-  (const Min      &value) const { SysTime sd = *this; return sd.set_min     (sd.min_  - value()); }
-  SysTime  operator-  (const Sec      &value) const { SysTime sd = *this; return sd.set_sec     (sd.sec_  - value()); }
-  SysTime  operator-  (const Millisec &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - value() * 1000000LL); }
-  SysTime  operator-  (const Microsec &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - value() * 1000LL); }
-  SysTime  operator-  (const Nanosec  &value) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - value()); }
+  SysTime  operator-  (const Hour     &rhs) const { SysTime sd = *this; return sd.set_hour    (sd.hour_ - rhs()); }
+  SysTime  operator-  (const Min      &rhs) const { SysTime sd = *this; return sd.set_min     (sd.min_  - rhs()); }
+  SysTime  operator-  (const Sec      &rhs) const { SysTime sd = *this; return sd.set_sec     (sd.sec_  - rhs()); }
+  SysTime  operator-  (const Millisec &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - rhs() * 1000000LL); }
+  SysTime  operator-  (const Microsec &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - rhs() * 1000LL); }
+  SysTime  operator-  (const Nanosec  &rhs) const { SysTime sd = *this; return sd.set_nanosec (sd.nano_ - rhs()); }
 
   bool     operator== (const SysTime  &rhs) const;
   bool     operator<= (const SysTime  &rhs) const;
@@ -88,10 +92,10 @@ public:
   bool     operator<  (const SysTime  &rhs) const;
   bool     operator>  (const SysTime  &rhs) const;
 
-  std::string to_string() const
-  {
-    return to_stringf(hour_, "%02lld:") + to_stringf(min_, "%02lld:") + to_stringf(sec_, "%02lld.") + to_stringf(nano_, "%09lld");
-  }
+  std::string strftime (std::string        format = "%H:%M:%S") const;
+  std::string to_string(const std::string &format = "%H:%M:%S") const { return strftime(format); }
+  bool        strptime (const std::string &time_string,
+                        const std::string &format = "%H:%M:%S");
 
   static std::tm localtime(const std::time_t &t)
   {
@@ -124,6 +128,51 @@ private:
   int64_t sec_  = 0;
   int64_t nano_ = 0;
 };
+
+inline bool
+SysTime::strptime(const std::string &time_string,
+                  const std::string &format)
+{
+  std::tm tm;
+  memset(&tm, 0x00, sizeof(tm));
+
+  std::istringstream ss(time_string);
+  ss >> std::get_time(&tm, format.c_str());
+
+  if (ss.fail() == true)
+    return false;
+
+  hour_ = tm.tm_hour;
+  min_  = tm.tm_min;
+  sec_  = tm.tm_sec;
+  nano_ = 0;
+
+  return true;
+}
+
+inline std::string
+SysTime::strftime(std::string format) const
+{
+  if (format.find("%L") != std::string::npos)
+    format.replace(format.find("%L"), 2, to_stringf(millisec(), "%03lld"));
+
+  if (format.find("%K") != std::string::npos)
+    format.replace(format.find("%K"), 2, to_stringf(microsec(), "%06lld"));
+
+  if (format.find("%N") != std::string::npos)
+    format.replace(format.find("%N"), 2, to_stringf(nanosec(), "%09lld"));
+
+  std::tm tm;
+  memset(&tm, 0x00, sizeof(std::tm));
+
+  tm.tm_hour = hour_;
+  tm.tm_min  = min_;
+  tm.tm_sec  = sec_;
+
+  std::ostringstream str_time;
+  str_time << std::put_time(&tm, format.c_str());
+  return str_time.str();
+}
 
 inline SysTime
 SysTime::now()
@@ -178,6 +227,18 @@ SysTime::set(const int64_t &hour, const int64_t &min, const int64_t &sec, const 
   hour_ = to.tm_hour;
   min_  = to.tm_min;
   sec_  = to.tm_sec;
+
+  return *this;
+}
+
+inline SysTime &
+SysTime::operator=(const time_t &rhs)
+{
+  std::tm to = localtime(rhs);
+  hour_ = to.tm_hour;
+  min_  = to.tm_min;
+  sec_  = to.tm_sec;
+  nano_ = 0;
 
   return *this;
 }
