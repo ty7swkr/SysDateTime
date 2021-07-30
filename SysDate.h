@@ -10,6 +10,9 @@
 
 #include <string>
 #include <chrono>
+#include <sstream>
+#include <iomanip>
+
 #include <string.h>
 
 class SysDate
@@ -38,25 +41,25 @@ public:
   template<typename T> SysDate &set(const T &value){ return operator= (value); }
   template<typename T> SysDate &add(const T &value){ return operator+=(value); }
 
-  SysDate &operator= (const Year    &value) { return set_year  (value());}
-  SysDate &operator= (const Month   &value) { return set_month (value());}
-  SysDate &operator= (const Day     &value) { return set_day   (value());}
+  SysDate &operator= (const Year    &rhs) { return set_year  (rhs());}
+  SysDate &operator= (const Month   &rhs) { return set_month (rhs());}
+  SysDate &operator= (const Day     &rhs) { return set_day   (rhs());}
 
-  SysDate &operator+=(const Year    &value) { set_year  (year_  + value()); return *this; }
-  SysDate &operator+=(const Month   &value) { set_month (month_ + value()); return *this; }
-  SysDate &operator+=(const Day     &value) { set_day   (day_   + value()); return *this; }
+  SysDate &operator+=(const Year    &rhs) { set_year  (year_  + rhs()); return *this; }
+  SysDate &operator+=(const Month   &rhs) { set_month (month_ + rhs()); return *this; }
+  SysDate &operator+=(const Day     &rhs) { set_day   (day_   + rhs()); return *this; }
 
-  SysDate &operator-=(const Year    &value) { set_year  (year_  - value()); return *this; }
-  SysDate &operator-=(const Month   &value) { set_month (month_ - value()); return *this; }
-  SysDate &operator-=(const Day     &value) { set_day   (day_   - value()); return *this; }
+  SysDate &operator-=(const Year    &rhs) { set_year  (year_  - rhs()); return *this; }
+  SysDate &operator-=(const Month   &rhs) { set_month (month_ - rhs()); return *this; }
+  SysDate &operator-=(const Day     &rhs) { set_day   (day_   - rhs()); return *this; }
 
-  SysDate  operator+ (const Year    &value) const { SysDate sd = *this; return sd.set_year (sd.year_  + value()); }
-  SysDate  operator+ (const Month   &value) const { SysDate sd = *this; return sd.set_month(sd.month_ + value()); }
-  SysDate  operator+ (const Day     &value) const { SysDate sd = *this; return sd.set_day  (sd.day_   + value()); }
+  SysDate  operator+ (const Year    &rhs) const { SysDate sd = *this; return sd.set_year (sd.year_  + rhs()); }
+  SysDate  operator+ (const Month   &rhs) const { SysDate sd = *this; return sd.set_month(sd.month_ + rhs()); }
+  SysDate  operator+ (const Day     &rhs) const { SysDate sd = *this; return sd.set_day  (sd.day_   + rhs()); }
 
-  SysDate  operator- (const Year    &value) const { SysDate sd = *this; return sd.set_year (sd.year_  - value()); }
-  SysDate  operator- (const Month   &value) const { SysDate sd = *this; return sd.set_month(sd.month_ - value()); }
-  SysDate  operator- (const Day     &value) const { SysDate sd = *this; return sd.set_day  (sd.day_   - value()); }
+  SysDate  operator- (const Year    &rhs) const { SysDate sd = *this; return sd.set_year (sd.year_  - rhs()); }
+  SysDate  operator- (const Month   &rhs) const { SysDate sd = *this; return sd.set_month(sd.month_ - rhs()); }
+  SysDate  operator- (const Day     &rhs) const { SysDate sd = *this; return sd.set_day  (sd.day_   - rhs()); }
 
   bool     operator==(const SysDate &rhs) const;
   bool     operator<=(const SysDate &rhs) const;
@@ -67,10 +70,8 @@ public:
   SysDate first_day_of_month() const { SysDate sd = *this; sd.day_ = 1; return sd; }
   SysDate last_day_of_month () const;
 
-  std::string to_string() const
-  {
-    return to_stringf(year_, "%04lld-") + to_stringf(month_, "%02lld-") + to_stringf(day_, "%02lld");
-  }
+  std::string strftime (const std::string &format = "%Y-%m-%d") const;
+  std::string to_string(const std::string &format = "%Y-%m-%d") const { return strftime(format); }
 
 private:
   static std::string
@@ -89,6 +90,21 @@ private:
   int64_t day_   = 1;
   int64_t day_of_week_ = 0;
 };
+
+inline std::string
+SysDate::strftime(const std::string &format) const
+{
+  std::tm tm;
+  memset(&tm, 0x00, sizeof(std::tm));
+
+  tm.tm_year = year_  - 1900;
+  tm.tm_mon  = month_ - 1;
+  tm.tm_mday = day_;
+
+  std::ostringstream str_time;
+  str_time << std::put_time(&tm, format.c_str());
+  return str_time.str();
+}
 
 inline SysDate
 SysDate::last_day_of_month() const
